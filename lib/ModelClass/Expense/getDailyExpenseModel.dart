@@ -1,0 +1,305 @@
+import 'package:simple/Bloc/Response/errorResponse.dart';
+
+/// success : true
+/// data : [{"_id":"69281261a895adf8c6ccbbd9","date":"2025-11-27T00:00:00.000Z","CategoryId":{"_id":"692552bf947ed9543e5a3744","name":"vadai"},"name":"keerai","amount":10,"paymentMethod":"Cash","locationId":{"_id":"6890d1700eb176a5bfc48b2a","name":"Tenkasi"},"createdBy":{"_id":"692529b1cce96462c4696340","name":"Mathan"},"createdAt":"2025-11-27T08:57:05.557Z","updatedAt":"2025-11-27T08:57:05.557Z","__v":0},{"_id":"692811c5a895adf8c6ccbbd0","date":"2025-11-27T00:00:00.000Z","CategoryId":{"_id":"69254a55cce96462c469727a","name":"Pongal"},"name":"ghee","amount":30,"paymentMethod":"Card","locationId":{"_id":"6890d1700eb176a5bfc48b2a","name":"Tenkasi"},"createdBy":{"_id":"692529b1cce96462c4696340","name":"Mathan"},"createdAt":"2025-11-27T08:54:29.541Z","updatedAt":"2025-11-27T08:54:29.541Z","__v":0},{"_id":"6927fda8429a94c91abf3176","date":"2025-11-27T07:14:19.405Z","CategoryId":{"_id":"69254a55cce96462c469727a","name":"Pongal"},"name":"SGST","amount":100,"paymentMethod":"card","locationId":{"_id":"6890d1700eb176a5bfc48b2a","name":"Tenkasi"},"createdBy":{"_id":"692529b1cce96462c4696340","name":"Mathan"},"createdAt":"2025-11-27T07:28:41.001Z","updatedAt":"2025-11-27T07:28:41.001Z","__v":0},{"_id":"6927fcafa895adf8c6ccb917","date":"2025-11-27T00:00:00.000Z","CategoryId":{"_id":"69254a55cce96462c469727a","name":"Pongal"},"name":"Raja","amount":22,"paymentMethod":"upi","locationId":{"_id":"6890d1700eb176a5bfc48b2a","name":"Tenkasi"},"createdBy":{"_id":"692529b1cce96462c4696340","name":"Mathan"},"createdAt":"2025-11-27T07:24:31.892Z","updatedAt":"2025-11-27T07:24:31.892Z","__v":0},{"_id":"6927fbf6429a94c91abf2f8c","date":"2025-11-27T07:14:19.405Z","CategoryId":{"_id":"692552bf947ed9543e5a3744","name":"vadai"},"name":"Tissue","amount":100,"paymentMethod":"card","locationId":{"_id":"6890d1700eb176a5bfc48b2a","name":"Tenkasi"},"createdBy":{"_id":"692529b1cce96462c4696340","name":"Mathan"},"createdAt":"2025-11-27T07:21:26.072Z","updatedAt":"2025-11-27T07:21:26.072Z","__v":0}]
+/// totalCount : 5
+
+class GetDailyExpenseModel {
+  GetDailyExpenseModel({
+    bool? success,
+    List<Data>? data,
+    num? totalCount,
+    ErrorResponse? errorResponse,
+  }) {
+    _success = success;
+    _data = data;
+    _totalCount = totalCount;
+  }
+
+  GetDailyExpenseModel.fromJson(dynamic json) {
+    _success = json['success'];
+    if (json['data'] != null) {
+      _data = [];
+      json['data'].forEach((v) {
+        _data?.add(Data.fromJson(v));
+      });
+    }
+    _totalCount = json['totalCount'];
+    if (json['errors'] != null && json['errors'] is Map<String, dynamic>) {
+      errorResponse = ErrorResponse.fromJson(json['errors']);
+    } else {
+      errorResponse = null;
+    }
+  }
+  bool? _success;
+  List<Data>? _data;
+  num? _totalCount;
+  ErrorResponse? errorResponse;
+  GetDailyExpenseModel copyWith({
+    bool? success,
+    List<Data>? data,
+    num? totalCount,
+  }) =>
+      GetDailyExpenseModel(
+        success: success ?? _success,
+        data: data ?? _data,
+        totalCount: totalCount ?? _totalCount,
+      );
+  bool? get success => _success;
+  List<Data>? get data => _data;
+  num? get totalCount => _totalCount;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['success'] = _success;
+    if (_data != null) {
+      map['data'] = _data?.map((v) => v.toJson()).toList();
+    }
+    if (errorResponse != null) {
+      map['errors'] = errorResponse!.toJson();
+    }
+    map['totalCount'] = _totalCount;
+    return map;
+  }
+}
+
+/// _id : "69281261a895adf8c6ccbbd9"
+/// date : "2025-11-27T00:00:00.000Z"
+/// CategoryId : {"_id":"692552bf947ed9543e5a3744","name":"vadai"}
+/// name : "keerai"
+/// amount : 10
+/// paymentMethod : "Cash"
+/// locationId : {"_id":"6890d1700eb176a5bfc48b2a","name":"Tenkasi"}
+/// createdBy : {"_id":"692529b1cce96462c4696340","name":"Mathan"}
+/// createdAt : "2025-11-27T08:57:05.557Z"
+/// updatedAt : "2025-11-27T08:57:05.557Z"
+/// __v : 0
+
+class Data {
+  Data({
+    String? id,
+    String? date,
+    CategoryId? categoryId,
+    String? name,
+    num? amount,
+    String? paymentMethod,
+    LocationId? locationId,
+    CreatedBy? createdBy,
+    String? createdAt,
+    String? updatedAt,
+    num? v,
+  }) {
+    _id = id;
+    _date = date;
+    _categoryId = categoryId;
+    _name = name;
+    _amount = amount;
+    _paymentMethod = paymentMethod;
+    _locationId = locationId;
+    _createdBy = createdBy;
+    _createdAt = createdAt;
+    _updatedAt = updatedAt;
+    _v = v;
+  }
+
+  Data.fromJson(dynamic json) {
+    _id = json['_id'];
+    _date = json['date'];
+    _categoryId = json['CategoryId'] != null
+        ? CategoryId.fromJson(json['CategoryId'])
+        : null;
+    _name = json['name'];
+    _amount = json['amount'];
+    _paymentMethod = json['paymentMethod'];
+    _locationId = json['locationId'] != null
+        ? LocationId.fromJson(json['locationId'])
+        : null;
+    _createdBy = json['createdBy'] != null
+        ? CreatedBy.fromJson(json['createdBy'])
+        : null;
+    _createdAt = json['createdAt'];
+    _updatedAt = json['updatedAt'];
+    _v = json['__v'];
+  }
+  String? _id;
+  String? _date;
+  CategoryId? _categoryId;
+  String? _name;
+  num? _amount;
+  String? _paymentMethod;
+  LocationId? _locationId;
+  CreatedBy? _createdBy;
+  String? _createdAt;
+  String? _updatedAt;
+  num? _v;
+  Data copyWith({
+    String? id,
+    String? date,
+    CategoryId? categoryId,
+    String? name,
+    num? amount,
+    String? paymentMethod,
+    LocationId? locationId,
+    CreatedBy? createdBy,
+    String? createdAt,
+    String? updatedAt,
+    num? v,
+  }) =>
+      Data(
+        id: id ?? _id,
+        date: date ?? _date,
+        categoryId: categoryId ?? _categoryId,
+        name: name ?? _name,
+        amount: amount ?? _amount,
+        paymentMethod: paymentMethod ?? _paymentMethod,
+        locationId: locationId ?? _locationId,
+        createdBy: createdBy ?? _createdBy,
+        createdAt: createdAt ?? _createdAt,
+        updatedAt: updatedAt ?? _updatedAt,
+        v: v ?? _v,
+      );
+  String? get id => _id;
+  String? get date => _date;
+  CategoryId? get categoryId => _categoryId;
+  String? get name => _name;
+  num? get amount => _amount;
+  String? get paymentMethod => _paymentMethod;
+  LocationId? get locationId => _locationId;
+  CreatedBy? get createdBy => _createdBy;
+  String? get createdAt => _createdAt;
+  String? get updatedAt => _updatedAt;
+  num? get v => _v;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['_id'] = _id;
+    map['date'] = _date;
+    if (_categoryId != null) {
+      map['CategoryId'] = _categoryId?.toJson();
+    }
+    map['name'] = _name;
+    map['amount'] = _amount;
+    map['paymentMethod'] = _paymentMethod;
+    if (_locationId != null) {
+      map['locationId'] = _locationId?.toJson();
+    }
+    if (_createdBy != null) {
+      map['createdBy'] = _createdBy?.toJson();
+    }
+    map['createdAt'] = _createdAt;
+    map['updatedAt'] = _updatedAt;
+    map['__v'] = _v;
+    return map;
+  }
+}
+
+/// _id : "692529b1cce96462c4696340"
+/// name : "Mathan"
+
+class CreatedBy {
+  CreatedBy({
+    String? id,
+    String? name,
+  }) {
+    _id = id;
+    _name = name;
+  }
+
+  CreatedBy.fromJson(dynamic json) {
+    _id = json['_id'];
+    _name = json['name'];
+  }
+  String? _id;
+  String? _name;
+  CreatedBy copyWith({
+    String? id,
+    String? name,
+  }) =>
+      CreatedBy(
+        id: id ?? _id,
+        name: name ?? _name,
+      );
+  String? get id => _id;
+  String? get name => _name;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['_id'] = _id;
+    map['name'] = _name;
+    return map;
+  }
+}
+
+/// _id : "6890d1700eb176a5bfc48b2a"
+/// name : "Tenkasi"
+
+class LocationId {
+  LocationId({
+    String? id,
+    String? name,
+  }) {
+    _id = id;
+    _name = name;
+  }
+
+  LocationId.fromJson(dynamic json) {
+    _id = json['_id'];
+    _name = json['name'];
+  }
+  String? _id;
+  String? _name;
+  LocationId copyWith({
+    String? id,
+    String? name,
+  }) =>
+      LocationId(
+        id: id ?? _id,
+        name: name ?? _name,
+      );
+  String? get id => _id;
+  String? get name => _name;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['_id'] = _id;
+    map['name'] = _name;
+    return map;
+  }
+}
+
+/// _id : "692552bf947ed9543e5a3744"
+/// name : "vadai"
+
+class CategoryId {
+  CategoryId({
+    String? id,
+    String? name,
+  }) {
+    _id = id;
+    _name = name;
+  }
+
+  CategoryId.fromJson(dynamic json) {
+    _id = json['_id'];
+    _name = json['name'];
+  }
+  String? _id;
+  String? _name;
+  CategoryId copyWith({
+    String? id,
+    String? name,
+  }) =>
+      CategoryId(
+        id: id ?? _id,
+        name: name ?? _name,
+      );
+  String? get id => _id;
+  String? get name => _name;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['_id'] = _id;
+    map['name'] = _name;
+    return map;
+  }
+}

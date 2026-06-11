@@ -1,0 +1,104 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+// -------------------- LOCAL PROPERTIES --------------------
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader("UTF-8") { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty("flutter.versionCode") ?: "1"
+def flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "1.0"
+
+// -------------------- KEYSTORE CONFIG --------------------
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = file('../../build_configs/signing/key.properties')
+
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+// -------------------- ANDROID CONFIG --------------------
+android {
+    namespace = "com.example.ramana"
+    compileSdkVersion 36
+    ndkVersion = flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId = "com.example.ramana"
+        minSdkVersion 28
+        targetSdkVersion 36
+        versionCode 5
+        versionName "1.0.1"
+        multiDexEnabled true
+    }
+
+    // -------------------- FLAVORS --------------------
+    flavorDimensions "target"
+    productFlavors {
+        playstore {
+            dimension "target"
+            targetSdkVersion 34
+        }
+        imin {
+            dimension "target"
+            targetSdkVersion 34
+        }
+    }
+
+    // -------------------- SIGNING --------------------
+    signingConfigs {
+        release {
+            if (keystoreProperties['storeFile']) {
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
+        }
+    }
+
+    // -------------------- BUILD TYPES --------------------
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            shrinkResources false
+        }
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
+}
+
+// -------------------- DEPENDENCIES --------------------
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar", "*.aar"])
+    implementation files('libs/SmartPos_2.0.1_R251024.aar')
+    implementation files('libs/emv_2.0.1_R251023.aar')
+}
+
+// -------------------- FLUTTER --------------------
+flutter {
+    source = "../.."
+}
